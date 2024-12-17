@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
+# Realtime Chat Application - Gerçek Zamanlı Mesajlaşma Uygulaması
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Proje Açıklaması
+Bu uygulama, kullanıcıların kolayca bağlantı kurmasını ve hızlı bir şekilde mesajlaşmasını sağlamak için modern web teknolojileri kullanılarak geliştirilmiştir.
+Realtime Chat Application, React.js ve Redux Toolkit kullanılarak TypeScript ile geliştirilmiş bir chat uygulamasıdır. Bu uygulama, kullanıcıların gerçek zamanlı olarak mesajlaşmasını sağlamak amacıyla oluşturulmuştur. Modern ve responsive bir arayüz için ShadCN UI ve Tailwind CSS kullanılmıştır.
 
-Currently, two official plugins are available:
+## Kullanılan Teknolojiler
+### Frontend
+- **React.js** (v19, TypeScript)
+- **Redux Toolkit** (State yönetimi)
+- **React Router** (Sayfa yönetimi)
+- **Socket.IO-Client** (Gerçek zamanlı iletişim)
+- **Tailwind CSS** & **ShadCN UI** (Arayüz tasarımı)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Proje Kurulumu
 
-## Expanding the ESLint configuration
+### Gereksinimler
+- Node.js (v18 veya daha yenisi)
+- npm veya yarn
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Frontend Kurulumu
+1. Depoyu klonlayın:
+   ```bash
+   git clone https://github.com/ismailkskn98/realtime-chat-app-client
+   cd realtime-chat-app-client
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. Bağımlılıkları yükleyin:
+   ```bash
+   npm install
+   # veya
+   yarn install
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+3. Uygulamayı çalıştırın:
+   ```bash
+   npm run dev
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Kullanım
+1. Oturum Açma: Giriş yaparak kullanıcı profilinizi oluşturun.
+2. Profil Ayarları: Ad, soyad ve profil resminizi seçerek hesabınızı kişiselleştirin.
+3. Mesajlaşma:
+- Gerçek zamanlı olarak diğer kullanıcılara mesaj gönderebilir ve cevap alabilirsiniz.
+- Grup sohbetleri oluşturabilir ve grup mesajlarını takip edebilirsiniz.
+4. Ekstralar: Emoji veya dosya göndermek için ilgili seçenekleri kullanın.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Ekran Görüntüleri
+-----
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Geliştirilecek Özellikler
+- Bildirim sistemi: Kullanıcıların mesaj ve etkinlikler için anlık bildirim almasını sağlayın.
+- Rol sistemi: Admin/moderator kullanıcıları yetkilendirin.
+- Karanlık Mod: Kullanıcı deneyimini artırmak için tema seçeneği ekleyin.
+
+
+## Katkıda Bulunma
+Katkıda bulunmak için pull request oluşturabilirsiniz. Öneri ve geri bildirimler için lütfen iletişime geçin.
