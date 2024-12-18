@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
-import { SIGNUP_ROUTE } from "@/utils/constants";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useState, type ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Auth() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,16 +30,39 @@ export default function Auth() {
     }
     return true;
   };
+  const validateLogin = () => {
+    if (!email.trim().length) {
+      toast.error("Email alanı boş bırakılamaz.");
+      return false;
+    }
+    if (!password.trim().length) {
+      toast.error("Şifre alanı boş bırakılamaz.");
+      return false;
+    }
+    return true;
+  };
 
   const handleLogin = async () => {
-    // setIsLoading(true);
+    if (validateLogin()) {
+      setIsLoading(true);
+      const response = await apiClient.post(LOGIN_ROUTE, { email, password }, { withCredentials: true });
+      setIsLoading(false);
+      if (response.data.user.id) {
+        if (!response.data.user.profileSetup) {
+          return navigate("/profile");
+        }
+        navigate("/chat");
+      }
+    }
   };
   const handleSignup = async () => {
     if (validateSignup()) {
       setIsLoading(true);
-      const response = await apiClient.post(SIGNUP_ROUTE, { email, password });
-      console.log(response);
+      const response = await apiClient.post(SIGNUP_ROUTE, { email, password }, { withCredentials: true });
       setIsLoading(false);
+      if (response.status === 201) {
+        navigate("/profile");
+      }
     }
   };
 
