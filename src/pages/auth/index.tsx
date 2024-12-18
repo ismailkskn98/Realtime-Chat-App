@@ -3,17 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
+import { setUser } from "@/store/features/auth/authSlice";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useState, type ChangeEvent } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Auth() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validateSignup = () => {
     if (!email.trim().length) {
@@ -48,6 +51,7 @@ export default function Auth() {
       const response = await apiClient.post(LOGIN_ROUTE, { email, password }, { withCredentials: true });
       setIsLoading(false);
       if (response.data.user.id) {
+        dispatch(setUser(response.data.user));
         if (!response.data.user.profileSetup) {
           return navigate("/profile");
         }
@@ -61,6 +65,7 @@ export default function Auth() {
       const response = await apiClient.post(SIGNUP_ROUTE, { email, password }, { withCredentials: true });
       setIsLoading(false);
       if (response.status === 201) {
+        dispatch(setUser(response.data.user));
         navigate("/profile");
       }
     }
