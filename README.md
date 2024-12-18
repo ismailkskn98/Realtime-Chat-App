@@ -10,6 +10,7 @@ Realtime Chat Application, React.js ve Redux Toolkit kullanılarak TypeScript il
 - **Redux Toolkit** (State yönetimi)
 - **React Router** (Sayfa yönetimi)
 - **Socket.IO-Client** (Gerçek zamanlı iletişim)
+- **Axios** (API istekleri)
 - **Tailwind CSS** & **ShadCN UI** (Arayüz tasarımı)
 
 ## Proje Kurulumu
