@@ -5,17 +5,40 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
 import { SIGNUP_ROUTE } from "@/utils/constants";
 import { useState, type ChangeEvent } from "react";
+import { toast } from "sonner";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const validateSignup = () => {
+    if (!email.trim().length) {
+      toast.error("Email alanı boş bırakılamaz.");
+      return false;
+    }
+    if (!password.trim().length) {
+      toast.error("Şifre alanı boş bırakılamaz.");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Şifreler eşleşmiyor.");
+      return false;
+    }
+    return true;
+  };
+
   const handleLogin = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
   };
   const handleSignup = async () => {
-    setIsLoading(true);
+    if (validateSignup()) {
+      setIsLoading(true);
+      const response = await apiClient.post(SIGNUP_ROUTE, { email, password });
+      console.log(response);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -46,20 +69,42 @@ export default function Auth() {
                 Üye Ol
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="login" className="flex flex-col items-start gap-5">
-              <Input placeholder="E-posta" type="email" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
-              <Input placeholder="Şifre" type="password" value={password} onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
-              <Button onClick={handleLogin} className="w-full">
-                {isLoading ? "Giriş Yapılıyor..." : "Giriş Yap"}
-              </Button>
+            <TabsContent value="login" className="flex flex-col items-start">
+              <form className="w-full flex flex-col items-start gap-5" onSubmit={(e) => e.preventDefault()}>
+                <Input placeholder="E-posta" type="email" autoComplete="username" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+                <Input
+                  placeholder="Şifre"
+                  autoComplete="current-password"
+                  type="password"
+                  value={password}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                />
+                <Button onClick={handleLogin} className="w-full">
+                  {isLoading ? "Giriş Yapılıyor..." : "Giriş Yap"}
+                </Button>
+              </form>
             </TabsContent>
-            <TabsContent value="signup" className="flex flex-col items-start gap-5">
-              <Input placeholder="E-posta" type="email" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
-              <Input placeholder="Şifre" type="password" value={password} onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
-              <Input placeholder="Şifreyi Onayla" type="password" value={confirmPassword} onChange={(e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)} />
-              <Button onClick={handleSignup} className="w-full">
-                {isLoading ? "Üye Olunuyor..." : "Üye Ol"}
-              </Button>
+            <TabsContent value="signup" className="flex flex-col items-start">
+              <form className="w-full flex flex-col items-start gap-5" onSubmit={(e) => e.preventDefault()}>
+                <Input placeholder="E-posta" type="email" autoComplete="username" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+                <Input
+                  placeholder="Şifre"
+                  autoComplete="current-password"
+                  type="password"
+                  value={password}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                />
+                <Input
+                  placeholder="Şifreyi Onayla"
+                  autoComplete="current-password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+                />
+                <Button onClick={handleSignup} className="w-full">
+                  {isLoading ? "Üye Olunuyor..." : "Üye Ol"}
+                </Button>
+              </form>
             </TabsContent>
           </Tabs>
         </article>
