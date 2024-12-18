@@ -2,6 +2,8 @@ import victory from "@/assets/victory.svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { apiClient } from "@/lib/api-client";
+import { SIGNUP_ROUTE } from "@/utils/constants";
 import { useState, type ChangeEvent } from "react";
 
 export default function Auth() {
