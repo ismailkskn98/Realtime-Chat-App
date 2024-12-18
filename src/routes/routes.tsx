@@ -1,3 +1,4 @@
+import Auth from "@/pages/auth";
 import Chat from "@/pages/chat";
 import Profile from "@/pages/profile";
 import type { RootState } from "@/store";
@@ -10,9 +11,9 @@ export const PrivateRoute = ({ children }: { children: ReactNode }) => {
   return user ? children : <Navigate to="/auth" replace />;
 };
 
-export const ProfileSetupRoute = ({ children }: { children: ReactNode }) => {
+export const AuthRoute = ({ children }: { children: ReactNode }) => {
   const user = useSelector((state: RootState) => state.auth.user);
-  return user.profileSetup ? children : <Navigate to="/profile" replace />;
+  return user ? <Navigate to="/chat" /> : children;
 };
 
 export const AppRoutes = () => {
@@ -20,7 +21,14 @@ export const AppRoutes = () => {
     <Router>
       <Routes>
         {/* Giriş yapmış kullanıcılar /auth'a gidemez */}
-        <Route path="/auth" element={<Navigate to={"/profile"} />} />
+        <Route
+          path="/auth"
+          element={
+            <AuthRoute>
+              <Auth />
+            </AuthRoute>
+          }
+        />
         {/* Giriş yapılmış kullanıcı kontrolü */}
         <Route
           path="/profile"
@@ -35,9 +43,7 @@ export const AppRoutes = () => {
           path="/chat"
           element={
             <PrivateRoute>
-              <ProfileSetupRoute>
-                <Chat />
-              </ProfileSetupRoute>
+              <Chat />
             </PrivateRoute>
           }
         />
