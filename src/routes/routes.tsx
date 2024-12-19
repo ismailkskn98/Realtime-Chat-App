@@ -8,12 +8,12 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-d
 
 export const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const user = useSelector((state: RootState) => state.auth.user);
-  return user ? children : <Navigate to="/auth" replace />;
+  return user.id ? children : <Navigate to="/auth" replace />;
 };
 
 export const AuthRoute = ({ children }: { children: ReactNode }) => {
   const user = useSelector((state: RootState) => state.auth.user);
-  return user ? <Navigate to="/chat" /> : children;
+  return user.id ? <Navigate to="/chat" /> : children;
 };
 
 export const AppRoutes = () => {
@@ -29,7 +29,6 @@ export const AppRoutes = () => {
             </AuthRoute>
           }
         />
-        {/* Giriş yapılmış kullanıcı kontrolü */}
         <Route
           path="/profile"
           element={
@@ -38,7 +37,6 @@ export const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-        {/* ProfileSetup kontrolü */}
         <Route
           path="/chat"
           element={
