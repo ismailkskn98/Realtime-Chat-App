@@ -20,7 +20,7 @@ function App() {
           withCredentials: true,
         });
         if (response.status === 200 && response.data.user.id) {
-          console.log(response.data.user);
+          // console.log(response.data.user);
           dispatch(setUser(response.data.user));
         }
       } catch (error) {
@@ -44,7 +44,7 @@ function App() {
   return (
     <>
       <Toaster richColors theme="light" closeButton />
-      <AppRoutes />;
+      <AppRoutes />
     </>
   );
 }
