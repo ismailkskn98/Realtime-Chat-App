@@ -8,6 +8,7 @@ export interface AuthState {
     firstName: string;
     lastName: string;
     image: string;
+    objectImage: boolean;
     color: number;
     profileSetup: boolean;
   };
@@ -20,6 +21,7 @@ const initialState: AuthState = {
     firstName: "",
     lastName: "",
     image: "",
+    objectImage: false,
     color: 0,
     profileSetup: false,
   },
