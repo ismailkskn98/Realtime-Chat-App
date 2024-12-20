@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
 import { setUser } from "@/store/features/auth/authSlice";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
+import type { AxiosError } from "axios";
 import { useState, type ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -47,26 +48,65 @@ export default function Auth() {
 
   const handleLogin = async () => {
     if (validateLogin()) {
-      setIsLoading(true);
-      const response = await apiClient.post(LOGIN_ROUTE, { email, password }, { withCredentials: true });
-      setIsLoading(false);
-      if (response.data.user.id) {
-        dispatch(setUser(response.data.user));
-        if (!response.data.user.profileSetup) {
-          return navigate("/profile");
+      try {
+        setIsLoading(true);
+        const response = await apiClient.post(LOGIN_ROUTE, { email, password }, { withCredentials: true });
+        // Kullanıcı bilgileri başarıyla geldiyse
+        if (response.status === 200 && response.data.user) {
+          dispatch(setUser(response.data.user));
+          toast.success("Başarıyla giriş yaptınız.");
+          if (!response.data.user.profileSetup) {
+            return navigate("/profile");
+          }
+          navigate("/chat");
         }
-        navigate("/chat");
+      } catch (error: unknown) {
+        // Axios hatalarını işleme
+        if ((error as AxiosError).response) {
+          const response = (error as AxiosError).response;
+          if (response) {
+            if (response.status === 404) {
+              toast.error("Kullanıcı bulunamadı.");
+            } else if (response.status === 401) {
+              toast.error("Email veya şifre hatalı.");
+            } else {
+              toast.error("Bilinmeyen bir hata oluştu.");
+            }
+          }
+        } else {
+          toast.error("Sunucuya bağlanılamadı.");
+        }
+      } finally {
+        setIsLoading(false);
       }
     }
   };
+
   const handleSignup = async () => {
     if (validateSignup()) {
-      setIsLoading(true);
-      const response = await apiClient.post(SIGNUP_ROUTE, { email, password }, { withCredentials: true });
-      setIsLoading(false);
-      if (response.status === 201) {
-        dispatch(setUser(response.data.user));
-        navigate("/profile");
+      try {
+        setIsLoading(true);
+        const response = await apiClient.post(SIGNUP_ROUTE, { email, password }, { withCredentials: true });
+
+        // Başarılı kayıt
+        if (response.status === 201 && response.data.user) {
+          dispatch(setUser(response.data.user));
+          toast.success("Başarıyla kayıt oldunuz.");
+          navigate("/profile");
+        }
+      } catch (error: unknown) {
+        const response = (error as AxiosError).response;
+        if (response) {
+          if (response.status === 400) {
+            toast.error("Geçersiz kayıt bilgileri.");
+          } else {
+            toast.error("Bilinmeyen bir hata oluştu.");
+          }
+        } else {
+          toast.error("Sunucuya bağlanılamadı.");
+        }
+      } finally {
+        setIsLoading(false);
       }
     }
   };

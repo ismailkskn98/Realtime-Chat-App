@@ -1,6 +1,6 @@
 import { IoArrowBack } from "react-icons/io5";
 import type { RootState } from "@/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { colors, getColor } from "@/utils/profileAvatarColor";
@@ -8,23 +8,70 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { apiClient } from "@/lib/api-client";
+import { UPDATE_PROFILE_ROUTE } from "@/utils/constants";
+import { setUser } from "@/store/features/auth/authSlice";
 
 export default function Profile() {
   const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState<string>(user.firstName ?? "");
+  const [lastName, setLastName] = useState<string>(user.lastName ?? "");
   const [image, setImage] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(0);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState<number>(user.color ?? 0);
 
-  const saveChanges = async () => {};
+  const validateProfile = () => {
+    if (!firstName.trim().length) {
+      toast.error("Adınızı girmelisiniz.");
+      return false;
+    }
+    if (!lastName.trim().length) {
+      toast.error("Soyadınızı girmelisiniz.");
+      return false;
+    }
+    return true;
+  };
+
+  const saveChanges = async () => {
+    if (validateProfile()) {
+      try {
+        const response = await apiClient.patch(
+          UPDATE_PROFILE_ROUTE,
+          {
+            firstName,
+            lastName,
+            color: selectedColor,
+          },
+          { withCredentials: true }
+        );
+        if (response.status === 200 && response.data.user) {
+          dispatch(setUser(response.data.user));
+          toast.success("Profiliniz başarıyla güncellendi.");
+          setTimeout(() => {
+            navigate("/chat");
+          }, 500);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleNavigate = () => {
+    if (!user.profileSetup) {
+      return toast.error("Profilinizi ayarlamalısınız.");
+    }
+    navigate("/chat");
+  };
 
   return (
     <section className="bg-gradient-to-tl from-slate-950 to-slate-800 h-screen flex flex-col items-center justify-center gap-10">
       <main className="flex flex-col items-start gap-10 w-4/5 md:w-max">
         <div>
-          <IoArrowBack className="text-4xl lg:text-6xl text-white cursor-pointer" />
+          <IoArrowBack onClick={handleNavigate} className="text-4xl lg:text-6xl text-white cursor-pointer" />
         </div>
         <div className="w-full flex items-start gap-10">
           <article
