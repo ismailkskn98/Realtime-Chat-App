@@ -71,7 +71,7 @@ export default function Profile() {
   };
 
   const handleFileInputClick = () => {
-    console.log(fileInputRef.current);
+    // console.log(fileInputRef.current);
     fileInputRef.current?.click();
   };
 
