@@ -8,6 +8,7 @@ import { GET_USERINFO } from "./utils/constants";
 import { setUser } from "./store/features/auth/authSlice";
 import Cookies from "js-cookie";
 import "./App.css";
+import Loading from "./components/loading";
 
 function App() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -38,7 +39,7 @@ function App() {
   }, [user, dispatch]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

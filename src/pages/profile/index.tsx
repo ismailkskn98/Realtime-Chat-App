@@ -112,7 +112,6 @@ export default function Profile() {
       toast.error("Profil resminiz silinirken bir hata oluştu.");
     }
   };
-  console.log(image);
   return (
     <section className="bg-gradient-to-tl from-slate-950 to-slate-800 h-screen flex flex-col items-center justify-center gap-10">
       <main className="flex flex-col items-start gap-10 w-4/5 md:w-max">
