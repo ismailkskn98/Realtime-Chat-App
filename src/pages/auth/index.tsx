@@ -6,10 +6,12 @@ import { apiClient } from "@/lib/api-client";
 import { setUser } from "@/store/features/auth/authSlice";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import type { AxiosError } from "axios";
+import { useLottie } from "lottie-react";
 import { useState, type ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import lottieAnimate from "@/assets/login-animate.json";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -111,18 +113,29 @@ export default function Auth() {
     }
   };
 
+  const { View } = useLottie({
+    animationData: lottieAnimate,
+    loop: true,
+    autoplay: true,
+    style: {
+      width: "100%",
+      height: "100%",
+    },
+  });
+
   return (
     <section className="h-screen w-screen flex items-center justify-center">
-      <main className="h-5/6 w-11/12 md:w-5/6 lg:w-3/4 xl:w-3/5 bg-white shadow-2xl rounded-xl grid 2xl:grid-cols-2">
-        <article className="flex flex-col items-center justify-end xl:justify-center">
-          <div className="flex items-center justify-center">
+      <div className="hidden md:flex h-5/6 w-full">{View}</div>
+      <main className="h-full w-full md:w-11/12 lg:5/6 xl:basis-2/3 bg-white shadow-2xl rounded-xl grid grid-cols-1">
+        <article className="basis-2/5 flex flex-col items-center justify-center px-4 md">
+          <div className="flex items-center justify-center flex-wrap">
             <h1 className="text-black/90 text-5xl font-bold lg:text-6xl">Hoş Geldiniz</h1>
             <img src={victory} alt="victory emoji" className="h-[100px]" />
           </div>
           <p className="text-black/90 font-medium text-sm xl:text-base text-center">En iyi sohbet uygulamasını kullanmak için bilgileri doldurun!</p>
         </article>
-        <article className="w-full flex items-center justify-center">
-          <Tabs className="w-3/4" defaultValue="login">
+        <article className="flex-1 w-full flex items-start justify-center">
+          <Tabs className="w-11/12 md:w-5/6 lg:w-3/4 2xl:w-3/5" defaultValue="login">
             <TabsList className="w-full bg-transparent rounded-none mb-8">
               <TabsTrigger
                 value="login"
@@ -139,8 +152,8 @@ export default function Auth() {
                 Üye Ol
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="login" className="flex flex-col items-start">
-              <form className="w-full flex flex-col items-start gap-5" onSubmit={(e) => e.preventDefault()}>
+            <TabsContent value="login" className="flex flex-col items-center">
+              <form className="w-full 2xl:w-9/12 flex flex-col items-center gap-5" onSubmit={(e) => e.preventDefault()}>
                 <Input placeholder="E-posta" type="email" autoComplete="username" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
                 <Input
                   placeholder="Şifre"
@@ -149,13 +162,13 @@ export default function Auth() {
                   value={password}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 />
-                <Button onClick={handleLogin} className="w-full">
+                <Button onClick={handleLogin} className="w-full py-5">
                   {isLoading ? "Giriş Yapılıyor..." : "Giriş Yap"}
                 </Button>
               </form>
             </TabsContent>
-            <TabsContent value="signup" className="flex flex-col items-start">
-              <form className="w-full flex flex-col items-start gap-5" onSubmit={(e) => e.preventDefault()}>
+            <TabsContent value="signup" className="flex flex-col items-center">
+              <form className="w-full flex flex-col items-center gap-5" onSubmit={(e) => e.preventDefault()}>
                 <Input placeholder="E-posta" type="email" autoComplete="username" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
                 <Input
                   placeholder="Şifre"
@@ -171,7 +184,7 @@ export default function Auth() {
                   value={confirmPassword}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
                 />
-                <Button onClick={handleSignup} className="w-full">
+                <Button onClick={handleSignup} className="w-full py-5">
                   {isLoading ? "Üye Olunuyor..." : "Üye Ol"}
                 </Button>
               </form>

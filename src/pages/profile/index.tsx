@@ -54,8 +54,8 @@ export default function Profile() {
           dispatch(setUser(response.data.user));
           toast.success("Profiliniz başarıyla güncellendi.");
           setTimeout(() => {
-            // navigate("/chat");
-          }, 500);
+            navigate("/chat");
+          }, 750);
         }
       } catch (error) {
         console.log(error);
