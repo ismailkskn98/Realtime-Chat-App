@@ -19,7 +19,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>(user.firstName ?? "");
   const [lastName, setLastName] = useState<string>(user.lastName ?? "");
-  const [image, setImage] = useState(user.image ? HOST + "/" + user.image : null);
+  const [image, setImage] = useState(user.image ? HOST + "/static/" + user.image : null);
   const [objectImage, setObjectImage] = useState<boolean>(user.objectImage ?? false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [selectedColor, setSelectedColor] = useState<number>(user.color ?? 0);

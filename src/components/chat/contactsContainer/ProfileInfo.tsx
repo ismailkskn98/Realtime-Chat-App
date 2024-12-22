@@ -39,7 +39,7 @@ export default function ProfileInfo() {
       <div className="flex items-center justify-center gap-3">
         <Avatar className={`w-12 h-12 overflow-hidden relative ${user.image && user.objectImage ? "border-none outline-none" : `${getColor(user.color)}`}`}>
           <AvatarImage
-            src={user.image ? `${HOST}/${user.image}` : ""}
+            src={user.image ? `${HOST}/static/${user.image}` : ""}
             alt={user.firstName ? user.firstName : "avatar"}
             className={`${user.objectImage ? "object-cover" : "object-scale-down"}`}
           />
