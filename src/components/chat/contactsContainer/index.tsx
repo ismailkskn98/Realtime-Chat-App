@@ -1,3 +1,4 @@
+import NewDM from "./newDM";
 import ProfileInfo from "./ProfileInfo";
 import Title from "./Title";
 
@@ -10,15 +11,12 @@ export default function ContactsContainer() {
         </span>
       </article>
       <article className="flex-1 flex flex-col items-start gap-5 mt-5 px-7">
-        <div>
-          <div className="flex items-center justify-between pr-10">
-            <Title title="Sohbetler" />
-          </div>
+        <div className="w-full flex items-center justify-between">
+          <Title title="Sohbetler" />
+          <NewDM />
         </div>
-        <div>
-          <div className="flex items-center justify-between pr-10">
-            <Title title="Gruplar" />
-          </div>
+        <div className="flex items-center justify-between pr-10">
+          <Title title="Gruplar" />
         </div>
       </article>
       <ProfileInfo />
