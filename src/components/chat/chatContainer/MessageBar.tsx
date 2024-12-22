@@ -34,7 +34,7 @@ export default function MessageBar() {
   const handleSendMessage = async () => {};
 
   return (
-    <article className="relative basis-20 shrink-0 bg-[#1c1d25] flex items-center justify-center px-8 gap-6 border-t-2 border-[#2f303b]">
+    <article className="relative basis-20 shrink-0 bg-[#1c1d25] flex items-center justify-center px-8 gap-6">
       <div className="flex-1 flex bg-[#2a2b33] rounded-md items-center gap-5 pr-5">
         <input
           type="text"
