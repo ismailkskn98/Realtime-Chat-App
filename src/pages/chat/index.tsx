@@ -20,8 +20,8 @@ export default function Chat() {
   return (
     <section className="flex h-screen overflow-hidden text-white">
       <ContactsContainer />
-      {/* <EmptyContainer /> */}
-      {/* <ChatContainer /> */}
+      <EmptyContainer />
+      <ChatContainer />
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import NewDM from "./newDM";
+import NewDM from "./NewDM";
 import ProfileInfo from "./ProfileInfo";
 import Title from "./Title";
 
